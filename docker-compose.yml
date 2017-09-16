@@ -1,0 +1,23 @@
+web:
+    image: nginx:latest
+    ports:
+        - "8080:80"
+    volumes:
+        - ./code:/code
+        - ./site.conf:/etc/nginx/conf.d/site.conf
+    links:
+        - php
+php:
+    image: php:7-fpm
+    volumes:
+        - ./code:/code
+        
+mysql:
+    image: mysql:latest
+    volumes:
+        - ./db:/var/lib/mysql
+    environment:
+        - MYSQL_ROOT_PASSWORD=aaJS1014
+        - MYSQL_DATABASE=temp
+    ports:
+        - 3306:3306
