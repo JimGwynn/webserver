@@ -1,4 +1,13 @@
-web:
+version: '3.1'
+ 
+services:
+
+  php:
+    image: php:7-fpm
+    volumes:
+        - ./code:/code
+
+  web:
     image: nginx:latest
     ports:
         - "8080:80"
@@ -7,17 +16,23 @@ web:
         - ./site.conf:/etc/nginx/conf.d/site.conf
     links:
         - php
-php:
-    image: php:7-fpm
-    volumes:
-        - ./code:/code
         
-mysql:
+  wordpress:
+    image: wordpress
+    ports:
+        - "8088:80"
+    environment:
+        WORDPRESS_DB_PASSWORD: aaJS1014
+
+  mysql:
     image: mysql:latest
     volumes:
         - ./db:/var/lib/mysql
     environment:
         - MYSQL_ROOT_PASSWORD=aaJS1014
+        - MYSQL_DATABASE=wordpress
         - MYSQL_DATABASE=temp
     ports:
         - 3306:3306
+
+       
